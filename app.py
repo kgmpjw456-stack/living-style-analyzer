@@ -11,31 +11,26 @@ st.markdown("""
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
-/* 전체 폰트 및 배경 통일 (라이트/다크모드 관계없이 일관된 모던 UI 유지) */
 html, body, [class*="css"], .stApp {
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif !important;
     background-color: #F8FAFC !important;
     color: #0F172A !important;
 }
 
-/* 기본 Streamlit 상단 헤더 및 푸터 숨김 */
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {background-color: transparent !important;}
 
-/* 메인 컨테이너 여백 최적화 */
 .block-container {
     padding-top: 2.5rem !important;
     padding-bottom: 3rem !important;
     max-width: 720px !important;
 }
 
-/* 텍스트 색상 강제 지정 */
 h1, h2, h3, h4, p, span, label {
     color: #0F172A;
 }
 
-/* 입력창(비밀번호) 스타일링 */
 div[data-testid="stTextInput"] input {
     background-color: #FFFFFF !important;
     color: #0F172A !important;
@@ -48,7 +43,6 @@ div[data-testid="stTextInput"] input:focus {
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
 }
 
-/* 라디오 버튼을 세련된 선택지 카드로 변환 */
 div[data-testid="stRadio"] > label {
     display: none !important;
 }
@@ -86,7 +80,6 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     font-weight: 600 !important;
 }
 
-/* 버튼 스타일링 */
 div.stButton > button {
     border-radius: 12px !important;
     padding: 0.65rem 1.2rem !important;
@@ -115,7 +108,6 @@ div.stButton > button[kind="primary"] p {
     color: #FFFFFF !important;
 }
 
-/* 커스텀 UI 컴포넌트 클래스 */
 .ui-card {
     background-color: #FFFFFF;
     border: 1px solid #E2E8F0;
@@ -223,96 +215,96 @@ if not st.session_state.authenticated:
             st.error("비밀번호가 일치하지 않습니다.")
     st.stop()
 
-# --- 5. 10개의 4지선다 질문 데이터 ---
+# --- 5. 10개의 4지선다 질문 데이터 (4대 지수 누적 풀 각 30점 균형 설계) ---
 QUESTIONS = [
     {
         "q": "Q1. 한 달에 숨만 쉬고 나가는 월세, 나의 마지노선은?",
         "options": [
-            {"text": "① 부모님 등골 브레이커는 면하자! 무조건 저렴한 게 최고", "scores": {"cost": 3}},
-            {"text": "② 적당히 타협하자! 평균 시세 정도면 쿨하게 인정", "scores": {"cost": 1, "defense": 1}},
-            {"text": "③ 내 몸 편한 게 장땡! 돈을 좀 더 주더라도 컨디션 좋은 방", "scores": {"defense": 2, "home": 1}},
-            {"text": "④ 인생은 한 번뿐! 풀옵션 신축 오피스텔 아니면 안 산다", "scores": {"home": 2, "lazy": 2}},
+            {"text": "① 부모님 등골 브레이커는 면하자! 무조건 저렴한 방이 최고", "scores": {"cost": 3}},
+            {"text": "② 방음·치안 확실한 신축·고층이라면 월세를 더 낼 의향 있음", "scores": {"defense": 3}},
+            {"text": "③ 채광 좋고 넓은 방에서 제대로 힐링하려면 투자는 필수", "scores": {"home": 3}},
+            {"text": "④ 학교·역 코앞 초역세권 인프라를 누릴 수 있다면 돈 안 아낌", "scores": {"lazy": 3}},
         ]
     },
     {
         "q": "Q2. 자취방에서 나의 주된 식생활은?",
         "options": [
-            {"text": "① 배달앱 VVIP (한 달 식비가 월세 맘먹음)", "scores": {"lazy": 2, "cost": -1}},
-            {"text": "② 햇반·밀키트 생존러 (전자레인지만 있으면 만사 OK)", "scores": {"cost": 2}},
-            {"text": "③ 방구석 흑백요리사 (도마부터 향신료까지 풀세팅 요리)", "scores": {"home": 3}},
-            {"text": "④ 프로 외식러 (집에서는 숨만 쉬고 물만 마심)", "scores": {"lazy": 2, "cost": 1}},
+            {"text": "① 벌레 꼬일까 봐 집에서 조리 금지! 깔끔하게 밖에서 해결", "scores": {"defense": 2, "lazy": 1}},
+            {"text": "② 방구석 흑백요리사 (도마부터 향신료까지 풀세팅 요리)", "scores": {"home": 3}},
+            {"text": "③ 배달앱 VVIP (문 앞까지 바로 오는 역세권·상권이 최고)", "scores": {"lazy": 3}},
+            {"text": "④ 햇반·밀키트·학식 위주 (주방 옵션 줄이고 월세·식비 절약)", "scores": {"cost": 3}},
         ]
     },
     {
         "q": "Q3. 주말 오후 2시, 나는 어디서 무엇을 하고 있을까?",
         "options": [
-            {"text": "① 이불 밖은 위험해! 넷플릭스 보며 귤 까먹는 중", "scores": {"home": 3}},
-            {"text": "② 햇살 가득한 방에서 인테리어 소품 정리 및 홈카페 오픈", "scores": {"home": 3}},
-            {"text": "③ 무조건 밖으로! 친구들 만나서 핫플·맛집 도장 깨기", "scores": {"lazy": 3}},
-            {"text": "④ 카공족 빙의, 집 근처 카페나 도서관에 박혀 있음", "scores": {"lazy": 2, "cost": 1}},
+            {"text": "① 이불 밖은 위험해! 넓은 방에서 넷플릭스 보며 귤 까먹는 중", "scores": {"home": 3}},
+            {"text": "② 무조건 밖으로! 집 바로 앞 핫플·맛집·편의시설 도장 깨기", "scores": {"lazy": 3}},
+            {"text": "③ 도서관·카공족 빙의 (집은 잠만 자는 곳이라 방 스펙 상관없음)", "scores": {"cost": 2, "lazy": 1}},
+            {"text": "④ 햇살 가득한 창가에서 홈카페 열고 인테리어 소품 정리", "scores": {"home": 2, "defense": 1}},
         ]
     },
     {
         "q": "Q4. 방에 거대한 바퀴벌레가 나타났다! 나의 반응은?",
         "options": [
-            {"text": "① '어, 왔니?' 휴지로 쿨하게 잡아서 변기에 내림", "scores": {"cost": 3}},
-            {"text": "② 비명을 지르며 에프킬라 한 통을 다 뿌리고 도망감", "scores": {"defense": 2}},
-            {"text": "③ 119 부를 뻔함. 그날 밤 모텔 가서 자고 다음 날 이사 알아봄", "scores": {"defense": 3}},
-            {"text": "④ 벌레 나올까 봐 애초에 신축 고층 아니면 쳐다도 안 봄", "scores": {"defense": 3, "home": 1}},
+            {"text": "① 당장 짐 싸서 집 앞 24시간 카페나 친구 자취방으로 피신함", "scores": {"lazy": 3}},
+            {"text": "② '어, 왔니?' 휴지로 쿨하게 잡아서 변기에 내림", "scores": {"cost": 3}},
+            {"text": "③ 소름 돋아서 기절 직전, 방역 업체 부르고 트라우마 생김", "scores": {"defense": 3}},
+            {"text": "④ 벌레 나올까 봐 애초에 신축 고층·배수구 트랩 완벽한 곳만 찾음", "scores": {"defense": 2, "home": 1}},
         ]
     },
     {
         "q": "Q5. 밤 11시, 옆집에서 통화하는 말소리가 들린다. 나의 멘탈은?",
         "options": [
-            {"text": "① '잘 자네~' 머리 대면 3초 만에 기절해서 전혀 안 들림", "scores": {"cost": 3}},
-            {"text": "② 이어폰 끼고 유튜브 틀면 해결됨, 크게 신경 안 씀", "scores": {"cost": 1, "home": 1}},
-            {"text": "③ 거슬려서 잠을 설침. 벽 두드리고 싶지만 소심해서 참음", "scores": {"defense": 2}},
-            {"text": "④ 잠귀가 예민해서 스트레스 폭발! 벽돌 가벽, 탑층 필수", "scores": {"defense": 3}},
+            {"text": "① 거슬려서 잠을 설침, 이중창·콘크리트 벽돌 가벽 필수", "scores": {"defense": 3}},
+            {"text": "② 노이즈 캔슬링 이어폰 끼고 내 방에서 영화 틀면 그만", "scores": {"home": 2, "defense": 1}},
+            {"text": "③ '잘 자네~' 머리 대면 3초 만에 기절해서 전혀 안 들림", "scores": {"cost": 3}},
+            {"text": "④ 잠귀가 예민해 스트레스 폭발! 조용한 탑층·신축만 고집함", "scores": {"defense": 2, "lazy": 1}},
         ]
     },
     {
         "q": "Q6. 아침 9시 1교시 수업(또는 출근), 집에서 역/학교까지 이동 시간은?",
         "options": [
             {"text": "① '1분이라도 더 자야 해!' 슬리퍼 신고 5분 컷 초역세권 필수", "scores": {"lazy": 3}},
-            {"text": "② '10~15분 정도는 산책이지' 적당한 도보 거리 OK", "scores": {"lazy": 1, "cost": 1}},
-            {"text": "③ '버스 한 번 타면 되지 뭐' 교통편만 있으면 좀 멀어도 됨", "scores": {"cost": 2}},
-            {"text": "④ '등산이 곧 운동이다' 가파른 언덕 위라도 월세만 싸면 환영", "scores": {"cost": 3}},
+            {"text": "② '버스 한 번 타면 되지 뭐' 조금 멀어도 넓고 쾌적한 방 선호", "scores": {"home": 3}},
+            {"text": "③ '등산이 곧 운동이다' 가파른 언덕 위라도 월세만 싸면 환영", "scores": {"cost": 3}},
+            {"text": "④ '10분 내외 평지 도보 OK' 집 주변에 편의점·카페만 있으면 됨", "scores": {"lazy": 2, "defense": 1}},
         ]
     },
     {
         "q": "Q7. 밤늦게 혼자 귀가할 때, 집 주변 골목길 분위기는?",
         "options": [
-            {"text": "① 어둡고 으슥한 골목길? 무서워서 절대 못 다님. 대로변 필수!", "scores": {"defense": 3, "lazy": 1}},
-            {"text": "② 가로등만 잘 켜져 있으면 주택가 골목도 괜찮음", "scores": {"defense": 1, "cost": 1}},
-            {"text": "③ '누가 나 같은 걸 건드려' 치안은 크게 신경 안 씀", "scores": {"cost": 3}},
-            {"text": "④ 1층에 편의점이나 24시간 가게가 있어서 밤에도 환한 곳 선호", "scores": {"lazy": 3}},
+            {"text": "① '누가 나 같은 걸 건드려' 치안보단 저렴한 보증금·월세가 우선", "scores": {"cost": 3}},
+            {"text": "② 어둡고 으슥한 골목길은 절대 불가! 대로변·CCTV·공동현관 필수", "scores": {"defense": 3}},
+            {"text": "③ 1층에 편의점이나 24시간 가게가 있어 밤에도 불 켜진 번화가 선호", "scores": {"lazy": 3}},
+            {"text": "④ 가로등 켜진 주택가 골목도 무난, 안전과 월세의 균형 중시", "scores": {"defense": 2, "cost": 1}},
         ]
     },
     {
         "q": "Q8. 자취방에 친구들을 초대하는 것에 대한 나의 생각은?",
         "options": [
-            {"text": "① '우리 집은 성역이다' 가족 외에는 아무도 들이지 않음", "scores": {"defense": 2, "home": 1}},
-            {"text": "② 가끔 친한 친구 1~2명 정도만 불러서 조용히 노는 편", "scores": {"home": 2}},
-            {"text": "③ '오늘 우리 집에서 파티다!' 친구들의 아지트 자처", "scores": {"home": 3, "lazy": 1}},
-            {"text": "④ 집이 좁아서 부를 수가 없음, 무조건 밖에서 만남", "scores": {"cost": 2, "lazy": 2}},
+            {"text": "① 가끔 친한 친구 1~2명 불러서 홈파티·영화 감상 즐기는 편", "scores": {"home": 3}},
+            {"text": "② 방은 좁아도 상관없음, 집 앞 번화가 술집·카페에서 만나면 됨", "scores": {"lazy": 2, "cost": 1}},
+            {"text": "③ '우리 집은 성역이다' 외부인 출입 금지, 조용한 프라이버시 중시", "scores": {"defense": 3}},
+            {"text": "④ '오늘 우리 집에서 모여!' 넓고 쾌적한 아지트 로망이 있음", "scores": {"home": 2, "lazy": 1}},
         ]
     },
     {
         "q": "Q9. 빨래와 청소에 대한 나의 현실적인 모습은?",
         "options": [
-            {"text": "① 옷 쌓아뒀다가 주말에 코인세탁소 가서 한 번에 해결함", "scores": {"cost": 3}},
-            {"text": "② 방 안에 드럼세탁기와 건조기(또는 넓은 베란다)가 꼭 있어야 함", "scores": {"home": 3}},
-            {"text": "③ 화장실 창문 없으면 곰팡이 필까 봐 숨 막힘, 환기 집착러", "scores": {"defense": 2, "home": 1}},
-            {"text": "④ 대충 살자! 먼지 좀 있어도 내 몸만 편하면 그만", "scores": {"cost": 2}},
+            {"text": "① 화장실 창문 없으면 곰팡이 필까 봐 숨 막힘, 환기·위생 집착러", "scores": {"defense": 3}},
+            {"text": "② 대충 살자! 먼지 좀 있어도 월세 저렴하고 내 몸만 편하면 그만", "scores": {"cost": 3}},
+            {"text": "③ 방 안에 드럼세탁기와 건조기(또는 널찍한 베란다)가 꼭 있어야 함", "scores": {"home": 3}},
+            {"text": "④ 옷 쌓아뒀다가 주말에 코인세탁소 가서 한 번에 해결함", "scores": {"cost": 2, "lazy": 1}},
         ]
     },
     {
         "q": "Q10. 자취방 창문을 열었을 때, 내가 가장 바라는 뷰(View)와 채광은?",
         "options": [
-            {"text": "① 낮에 집에 없으니 창문 열면 앞집 벽이 보여도 상관없음", "scores": {"cost": 3}},
-            {"text": "② 빨래 잘 마르고 우울하지 않게 햇빛 쨍쨍한 '남향' 필수", "scores": {"home": 3}},
-            {"text": "③ 통풍만 잘 되면 방향(동·서·남·북)은 크게 안 따짐", "scores": {"cost": 1, "defense": 1}},
-            {"text": "④ 창문 열었을 때 뻥 뚫린 시티뷰나 공원 뷰가 보이는 감성 중시", "scores": {"home": 3}},
+            {"text": "① 창밖 뷰보단 문 열고 나갔을 때 정류장·상권이 코앞인 입지가 중요", "scores": {"lazy": 3}},
+            {"text": "② 창문 열었을 때 뻥 뚫린 시티뷰나 공원 뷰가 보이는 방콕 감성 중시", "scores": {"home": 3}},
+            {"text": "③ 낮에 집에 없으니 창문 열면 앞집 벽이 보여도 월세만 싸면 OK", "scores": {"cost": 3}},
+            {"text": "④ 습기·결로·곰팡이 방지! 맞통풍 잘 되고 채광 좋은 남향 필수", "scores": {"home": 2, "defense": 1}},
         ]
     }
 ]
@@ -363,7 +355,6 @@ elif 1 <= st.session_state.step <= 10:
     q_data = QUESTIONS[current_idx]
     progress_pct = int((st.session_state.step / 10) * 100)
 
-    # 커스텀 상단 진행률 바
     st.markdown(f"""
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <span style="font-size: 0.85rem; font-weight: 700; color: #4F46E5;">QUESTION {st.session_state.step:02d} / 10</span>
@@ -449,7 +440,6 @@ elif st.session_state.step == 11:
         <p style="font-size: 0.85rem; color: #64748B; margin: 0 0 12px 0;">4대 핵심 지표별 누적 가중치 분포</p>
     """, unsafe_allow_html=True)
 
-    # 4개 스탯 요약 미니 카드
     m_cols = st.columns(4)
     short_names = ["통장수호", "예민보스", "방구석라이프", "귀차니즘"]
     stat_keys = ["cost", "defense", "home", "lazy"]
@@ -466,7 +456,6 @@ elif st.session_state.step == 11:
             </div>
             """, unsafe_allow_html=True)
 
-    # 세련된 Plotly 레이더 차트
     categories = [
         "통장수호 지수<br>(가성비)",
         "예민보스 지수<br>(방음·치안)",
@@ -474,7 +463,6 @@ elif st.session_state.step == 11:
         "귀차니즘 지수<br>(교통·인프라)"
     ]
     values = [totals["cost"], totals["defense"], totals["home"], totals["lazy"]]
-    # 폴리곤 폐합을 위해 첫 번째 값 추가
     categories_closed = categories + [categories[0]]
     values_closed = values + [values[0]]
     max_range = max(values) + 3
@@ -496,7 +484,7 @@ elif st.session_state.step == 11:
             radialaxis=dict(
                 visible=True,
                 range=[0, max_range],
-                showticklabels=False,  # 내부 숫자 제거로 깔끔한 시인성 확보
+                showticklabels=False,
                 gridcolor='#E2E8F0',
                 linecolor='rgba(0,0,0,0)'
             ),

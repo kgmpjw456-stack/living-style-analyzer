@@ -31,6 +31,16 @@ h1, h2, h3, h4, p, span, label {
     color: #0F172A;
 }
 
+/* Streamlit bordered container 카드 스타일링 */
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    background-color: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 18px !important;
+    padding: 16px 20px !important;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04) !important;
+    margin-bottom: 20px !important;
+}
+
 div[data-testid="stTextInput"] input {
     background-color: #FFFFFF !important;
     color: #0F172A !important;
@@ -135,17 +145,17 @@ div.stButton > button[kind="primary"] p {
     background-color: #F8FAFC;
     border: 1px solid #E2E8F0;
     border-radius: 12px;
-    padding: 14px 12px;
+    padding: 12px 10px;
     text-align: center;
 }
 .metric-label {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: #64748B;
     font-weight: 600;
     margin-bottom: 4px;
 }
 .metric-value {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     color: #0F172A;
     font-weight: 800;
 }
@@ -308,7 +318,7 @@ if st.session_state.step == 0:
         </h1>
         <p style="color: #475569; font-size: 1rem; line-height: 1.65; margin-bottom: 24px;">
             부동산에 가기 전, 내 생활 패턴부터 정확히 알아야 후회 없는 방을 고릅니다.<br>
-            10개 문항으로 <b>꼭 챙길 조건 TOP 3</b>와 <b>포기할 조건 TOP 3</b>를 바로 확인해 보세요.
+            10개 문항으로 <b>우선 고려할 조건</b>과 <b>타협 가능한 조건</b>을 바로 확인해 보세요.
         </p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 6px;">
             <div class="metric-box" style="text-align: left; padding: 14px 16px;">
@@ -417,90 +427,87 @@ elif st.session_state.step == 11:
     </div>
     """, unsafe_allow_html=True)
 
-    # 1. 영역별 주거 중요도 프로파일 (레이더 차트 + 지표 요약 카드)
-    st.markdown("""
-    <div class="ui-card" style="padding-bottom: 16px;">
-        <h3 style="font-size: 1.15rem; font-weight: 700; margin: 0 0 14px 0;">영역별 주거 중요도 프로파일</h3>
-    """, unsafe_allow_html=True)
+    # 1. 영역별 주거 중요도 프로파일 (통합 카드 컨테이너)
+    with st.container(border=True):
+        st.markdown('<h3 style="font-size: 1.15rem; font-weight: 700; margin: 4px 0 14px 0;">영역별 주거 중요도 프로파일</h3>', unsafe_allow_html=True)
 
-    m_cols = st.columns(4)
-    short_names = ["통장수호", "예민보스", "방구석라이프", "귀차니즘"]
-    stat_keys = ["cost", "defense", "home", "lazy"]
-    for idx, col in enumerate(m_cols):
-        val = totals[stat_keys[idx]]
-        is_top = (stat_keys[idx] == best_stat_key)
-        border_style = "border: 1.5px solid #4F46E5; background-color: #EEF2FF;" if is_top else ""
-        val_color = "#4F46E5" if is_top else "#0F172A"
-        with col:
-            st.markdown(f"""
-            <div class="metric-box" style="{border_style}">
-                <div class="metric-label">{short_names[idx]}</div>
-                <div class="metric-value" style="color: {val_color};">{val}점</div>
-            </div>
-            """, unsafe_allow_html=True)
+        m_cols = st.columns(4)
+        short_names = ["통장수호", "예민보스", "방구석라이프", "귀차니즘"]
+        stat_keys = ["cost", "defense", "home", "lazy"]
+        for idx, col in enumerate(m_cols):
+            val = totals[stat_keys[idx]]
+            is_top = (stat_keys[idx] == best_stat_key)
+            border_style = "border: 1.5px solid #4F46E5; background-color: #EEF2FF;" if is_top else ""
+            val_color = "#4F46E5" if is_top else "#0F172A"
+            with col:
+                st.markdown(f"""
+                <div class="metric-box" style="{border_style}">
+                    <div class="metric-label">{short_names[idx]}</div>
+                    <div class="metric-value" style="color: {val_color};">{val}점</div>
+                </div>
+                """, unsafe_allow_html=True)
 
-    categories = [
-        "통장수호 지수<br>(가성비)",
-        "예민보스 지수<br>(방음·치안)",
-        "방구석라이프 지수<br>(채광·공간)",
-        "귀차니즘 지수<br>(교통·인프라)"
-    ]
-    values = [totals["cost"], totals["defense"], totals["home"], totals["lazy"]]
-    categories_closed = categories + [categories[0]]
-    values_closed = values + [values[0]]
-    max_range = max(values) + 3
+        categories = [
+            "통장수호 지수<br>(가성비)",
+            "예민보스 지수<br>(방음·치안)",
+            "방구석라이프 지수<br>(채광·공간)",
+            "귀차니즘 지수<br>(교통·인프라)"
+        ]
+        values = [totals["cost"], totals["defense"], totals["home"], totals["lazy"]]
+        categories_closed = categories + [categories[0]]
+        values_closed = values + [values[0]]
+        max_range = max(values) + 3
 
-    fig = go.Figure()
-    fig.add_trace(go.Scatterpolar(
-        r=values_closed,
-        theta=categories_closed,
-        fill='toself',
-        fillcolor='rgba(99, 102, 241, 0.20)',
-        line=dict(color='#4F46E5', width=3),
-        marker=dict(size=9, color='#FFFFFF', line=dict(color='#4F46E5', width=2.5)),
-        hovertemplate='<b>%{theta}</b><br>%{r}점<extra></extra>'
-    ))
+        fig = go.Figure()
+        fig.add_trace(go.Scatterpolar(
+            r=values_closed,
+            theta=categories_closed,
+            fill='toself',
+            fillcolor='rgba(99, 102, 241, 0.20)',
+            line=dict(color='#4F46E5', width=2.5),
+            marker=dict(size=8, color='#FFFFFF', line=dict(color='#4F46E5', width=2.5)),
+            hovertemplate='<b>%{theta}</b><br>%{r}점<extra></extra>'
+        ))
 
-    fig.update_layout(
-        polar=dict(
-            bgcolor='rgba(248, 250, 252, 0.6)',
-            radialaxis=dict(
-                visible=True,
-                range=[0, max_range],
-                showticklabels=False,
-                gridcolor='#E2E8F0',
-                linecolor='rgba(0,0,0,0)'
+        fig.update_layout(
+            polar=dict(
+                bgcolor='rgba(248, 250, 252, 0.6)',
+                radialaxis=dict(
+                    visible=True,
+                    range=[0, max_range],
+                    showticklabels=False,
+                    gridcolor='#E2E8F0',
+                    linecolor='rgba(0,0,0,0)'
+                ),
+                angularaxis=dict(
+                    tickfont=dict(size=11.5, color='#1E293B', family='Pretendard'),
+                    gridcolor='#E2E8F0',
+                    linecolor='#CBD5E1',
+                    rotation=90,
+                    direction="clockwise"
+                )
             ),
-            angularaxis=dict(
-                tickfont=dict(size=12.5, color='#1E293B', family='Pretendard'),
-                gridcolor='#E2E8F0',
-                linecolor='#CBD5E1',
-                rotation=90,
-                direction="clockwise"
-            )
-        ),
-        showlegend=False,
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
-        height=350,
-        margin=dict(l=65, r=65, t=30, b=30)
-    )
-    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
-    st.markdown("</div>", unsafe_allow_html=True)
+            showlegend=False,
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            height=280,
+            margin=dict(l=95, r=95, t=42, b=42)
+        )
+        st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
 
-    # 2. 간결하게 압축된 TOP 3 체크리스트
+    # 2. 순위 없이 병렬 제시되는 실전 체크리스트
     MUST_HAVE_MAP = {
-        "cost": ["① 시세보다 저렴한 급매물", "② 수도·인터넷 포함 관리비", "③ 옵션보다 기본 구조 우선"],
-        "defense": ["① 3층 이상 고층 · 신축", "② 콘크리트 벽 · 탑층 구조", "③ 대로변 · 공동현관 보안"],
-        "home": ["① 채광 좋은 남향 배치", "② 분리형 원룸 · 1.5룸", "③ 넉넉한 수납 · 풀옵션"],
-        "lazy": ["① 도보 5분 이내 초역세권", "② 도보 1분 컷 편의점", "③ 밤에도 밝은 메인 상권"]
+        "cost": ["• 시세보다 저렴한 급매물", "• 수도·인터넷 포함 관리비", "• 옵션보다 기본 구조 우선"],
+        "defense": ["• 3층 이상 고층 · 신축", "• 콘크리트 벽 · 탑층 구조", "• 대로변 · 공동현관 보안"],
+        "home": ["• 채광 좋은 남향 배치", "• 분리형 원룸 · 1.5룸", "• 넉넉한 수납 · 풀옵션"],
+        "lazy": ["• 도보 5분 이내 초역세권", "• 도보 1분 컷 편의점", "• 밤에도 밝은 메인 상권"]
     }
 
     DROP_MAP = {
-        "cost": ["① 역세권 초근접 입지", "② 관리비 비싼 신축 오피스텔", "③ 불필요하게 넓은 평수"],
-        "defense": ["① 무조건 신축 연식 고집", "② 저층(1~2층) 기피", "③ 비싼 대로변 위치"],
-        "home": ["① 남향 채광 고집", "② 넓은 주방 · 분리형 구조", "③ 탁 트인 창밖 뷰(View)"],
-        "lazy": ["① 완전 평지 입지", "② 번화가 중심 상권", "③ 도보 5분 초역세권"]
+        "cost": ["• 역세권 초근접 입지", "• 관리비 비싼 신축 오피스텔", "• 불필요하게 넓은 평수"],
+        "defense": ["• 무조건 신축 연식 고집", "• 저층(1~2층) 기피", "• 비싼 대로변 위치"],
+        "home": ["• 남향 채광 고집", "• 넓은 주방 · 분리형 구조", "• 탁 트인 창밖 뷰(View)"],
+        "lazy": ["• 완전 평지 입지", "• 번화가 중심 상권", "• 도보 5분 초역세권"]
     }
 
     col1, col2 = st.columns(2)
@@ -508,8 +515,8 @@ elif st.session_state.step == 11:
         items_html = "".join([f'<div class="guide-item">{item}</div>' for item in MUST_HAVE_MAP[best_stat_key]])
         st.markdown(f"""
         <div class="guide-card-must">
-            <h4 style="margin: 0 0 4px 0; font-size: 1.12rem; font-weight: 800; color: #14532D;">꼭 챙길 조건 TOP 3</h4>
-            <p style="font-size: 0.82rem; color: #166534; margin: 0 0 10px 0;">1순위 · <b>{best_stat_name}</b></p>
+            <h4 style="margin: 0 0 4px 0; font-size: 1.12rem; font-weight: 800; color: #14532D;">우선 고려할 조건</h4>
+            <p style="font-size: 0.82rem; color: #166534; margin: 0 0 10px 0;">최우선 성향 · <b>{best_stat_name}</b></p>
             {items_html}
         </div>
         """, unsafe_allow_html=True)
@@ -518,8 +525,8 @@ elif st.session_state.step == 11:
         drop_html = "".join([f'<div class="guide-item">{item}</div>' for item in DROP_MAP[worst_stat_key]])
         st.markdown(f"""
         <div class="guide-card-drop">
-            <h4 style="margin: 0 0 4px 0; font-size: 1.12rem; font-weight: 800; color: #881337;">포기할 조건 TOP 3</h4>
-            <p style="font-size: 0.82rem; color: #9F1239; margin: 0 0 10px 0;">후순위 · <b>{worst_stat_name}</b></p>
+            <h4 style="margin: 0 0 4px 0; font-size: 1.12rem; font-weight: 800; color: #881337;">타협 가능한 조건</h4>
+            <p style="font-size: 0.82rem; color: #9F1239; margin: 0 0 10px 0;">후순위 성향 · <b>{worst_stat_name}</b></p>
             {drop_html}
         </div>
         """, unsafe_allow_html=True)

@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 import time
 
 # --- 1. 페이지 기본 설정 ---
-st.set_page_config(page_title="자취방 우선순위 판독기", page_icon="🏠", layout="centered")
+st.set_page_config(page_title="자취방 구하기 전, 나의 라이프 파악하기", page_icon="🏠", layout="centered")
 
 # --- 2. 모던 UI 커스텀 CSS 주입 ---
 st.markdown("""
@@ -116,17 +116,6 @@ div.stButton > button[kind="primary"] p {
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
     margin-bottom: 20px;
 }
-.badge {
-    display: inline-block;
-    background-color: #EEF2FF;
-    color: #4F46E5;
-    font-size: 0.78rem;
-    font-weight: 700;
-    padding: 5px 12px;
-    border-radius: 999px;
-    letter-spacing: 0.04em;
-    margin-bottom: 12px;
-}
 .progress-wrapper {
     width: 100%;
     background-color: #E2E8F0;
@@ -164,25 +153,25 @@ div.stButton > button[kind="primary"] p {
     background-color: #F0FDF4;
     border: 1px solid #BBF7D0;
     border-radius: 16px;
-    padding: 22px;
+    padding: 20px;
     height: 100%;
 }
 .guide-card-drop {
     background-color: #FFF1F2;
     border: 1px solid #FECDD3;
     border-radius: 16px;
-    padding: 22px;
+    padding: 20px;
     height: 100%;
 }
 .guide-item {
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
-    padding: 12px 14px;
-    margin-top: 10px;
+    padding: 11px 14px;
+    margin-top: 8px;
     font-size: 0.92rem;
     color: #1E293B;
-    font-weight: 500;
-    line-height: 1.45;
+    font-weight: 600;
+    line-height: 1.4;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -199,15 +188,14 @@ if "answers" not in st.session_state:
 if not st.session_state.authenticated:
     st.markdown("""
     <div class="ui-card" style="margin-top: 40px;">
-        <span class="badge">PNU MIS PROJECT</span>
-        <h2 style="margin: 0 0 8px 0; font-size: 1.6rem; font-weight: 800;">자취방 우선순위 판독기</h2>
-        <p style="color: #64748B; font-size: 0.95rem; margin-bottom: 0;">시스템 접근을 위해 인증 비밀번호를 입력해 주세요.</p>
+        <h2 style="margin: 0 0 8px 0; font-size: 1.55rem; font-weight: 800;">자취방 구하기 전, 나의 라이프 파악하기</h2>
+        <p style="color: #64748B; font-size: 0.95rem; margin-bottom: 0;">계속하려면 입장 비밀번호를 입력해 주세요.</p>
     </div>
     """, unsafe_allow_html=True)
     
     password = st.text_input("비밀번호", type="password", placeholder="비밀번호 입력", label_visibility="collapsed")
     st.write("")
-    if st.button("시스템 접속", type="primary", use_container_width=True):
+    if st.button("입장하기", type="primary", use_container_width=True):
         if password == "pnumis":
             st.session_state.authenticated = True
             st.rerun()
@@ -215,7 +203,7 @@ if not st.session_state.authenticated:
             st.error("비밀번호가 일치하지 않습니다.")
     st.stop()
 
-# --- 5. 10개의 4지선다 질문 데이터 (4대 지수 누적 풀 각 30점 균형 설계) ---
+# --- 5. 10개의 4지선다 질문 데이터 (4대 지수 균형 설계) ---
 QUESTIONS = [
     {
         "q": "Q1. 한 달에 숨만 쉬고 나가는 월세, 나의 마지노선은?",
@@ -315,16 +303,14 @@ QUESTIONS = [
 if st.session_state.step == 0:
     st.markdown("""
     <div class="ui-card" style="margin-top: 20px;">
-        <span class="badge">HOUSING PRIORITY ANALYZER</span>
-        <h1 style="font-size: 2rem; font-weight: 800; line-height: 1.3; margin: 0 0 14px 0;">
-            대학생 자취방<br>우선순위 판독기
+        <h1 style="font-size: 1.9rem; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">
+            자취방 구하기 전,<br>나의 라이프 파악하기
         </h1>
-        <p style="color: #475569; font-size: 1.02rem; line-height: 1.65; margin-bottom: 24px;">
-            한정된 예산 안에서 모든 조건을 갖춘 방을 찾기란 불가능합니다.<br>
-            10가지 라이프스타일 문항을 통해 <b>반드시 사수해야 할 조건 TOP 3</b>와 
-            <b>과감히 타협해 월세를 아낄 조건 TOP 3</b>를 정밀하게 도출합니다.
+        <p style="color: #475569; font-size: 1rem; line-height: 1.65; margin-bottom: 24px;">
+            부동산에 가기 전, 내 생활 패턴부터 정확히 알아야 후회 없는 방을 고릅니다.<br>
+            10개 문항으로 <b>꼭 챙길 조건 TOP 3</b>와 <b>포기할 조건 TOP 3</b>를 바로 확인해 보세요.
         </p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 6px;">
             <div class="metric-box" style="text-align: left; padding: 14px 16px;">
                 <div style="font-weight: 700; color: #4F46E5; font-size: 0.85rem;">01 · 통장수호 지수</div>
                 <div style="font-size: 0.85rem; color: #64748B; margin-top: 2px;">월세 및 고정지출 민감도</div>
@@ -345,7 +331,7 @@ if st.session_state.step == 0:
     </div>
     """, unsafe_allow_html=True)
 
-    if st.button("진단 시작하기 →", type="primary", use_container_width=True):
+    if st.button("내 라이프 진단 시작하기 →", type="primary", use_container_width=True):
         st.session_state.step = 1
         st.rerun()
 
@@ -357,14 +343,14 @@ elif 1 <= st.session_state.step <= 10:
 
     st.markdown(f"""
     <div style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 0.85rem; font-weight: 700; color: #4F46E5;">QUESTION {st.session_state.step:02d} / 10</span>
-        <span style="font-size: 0.85rem; font-weight: 700; color: #64748B;">{progress_pct}% 완료</span>
+        <span style="font-size: 0.85rem; font-weight: 700; color: #4F46E5;">{st.session_state.step:02d} / 10</span>
+        <span style="font-size: 0.85rem; font-weight: 700; color: #64748B;">{progress_pct}%</span>
     </div>
     <div class="progress-wrapper">
         <div class="progress-fill" style="width: {progress_pct}%;"></div>
     </div>
     <div class="ui-card" style="padding: 24px 28px; margin-bottom: 18px;">
-        <h3 style="margin: 0; font-size: 1.28rem; font-weight: 700; line-height: 1.45; color: #0F172A;">
+        <h3 style="margin: 0; font-size: 1.25rem; font-weight: 700; line-height: 1.45; color: #0F172A;">
             {q_data["q"]}
         </h3>
     </div>
@@ -379,12 +365,12 @@ elif 1 <= st.session_state.step <= 10:
     col1, col2 = st.columns([1, 2])
     with col1:
         if st.session_state.step > 1:
-            if st.button("← 이전 문항", use_container_width=True):
+            if st.button("← 이전", use_container_width=True):
                 st.session_state.answers[current_idx] = option_texts.index(choice)
                 st.session_state.step -= 1
                 st.rerun()
     with col2:
-        btn_label = "다음 문항 →" if st.session_state.step < 10 else "분석 리포트 확인하기"
+        btn_label = "다음 →" if st.session_state.step < 10 else "결과 확인하기"
         if st.button(btn_label, type="primary", use_container_width=True):
             st.session_state.answers[current_idx] = option_texts.index(choice)
             st.session_state.step += 1
@@ -392,7 +378,7 @@ elif 1 <= st.session_state.step <= 10:
 
 # [Step 11: 결과 분석 화면]
 elif st.session_state.step == 11:
-    with st.spinner('응답 데이터를 기반으로 우선순위를 산출하고 있습니다...'):
+    with st.spinner('내 라이프스타일에 맞는 방 조건을 정리 중입니다...'):
         time.sleep(0.8)
         
     # 1. 점수 합산 로직
@@ -402,16 +388,15 @@ elif st.session_state.step == 11:
         for k, v in scores.items():
             totals[k] += v
             
-    # 최소 1점 보정 (레이더 차트 형태 유지)
     for k in totals:
         if totals[k] < 1:
             totals[k] = 1
 
     label_map = {
-        "cost": "통장수호 지수 (가성비)", 
-        "defense": "예민보스 지수 (방음/치안)", 
-        "home": "방구석라이프 지수 (채광/크기)", 
-        "lazy": "귀차니즘 지수 (교통/인프라)"
+        "cost": "통장수호 지수", 
+        "defense": "예민보스 지수", 
+        "home": "방구석라이프 지수", 
+        "lazy": "귀차니즘 지수"
     }
     
     sorted_stats = sorted(totals.items(), key=lambda x: x[1], reverse=True)
@@ -424,11 +409,10 @@ elif st.session_state.step == 11:
     # 상단 리포트 헤더 카드
     st.markdown(f"""
     <div class="ui-card" style="margin-bottom: 20px;">
-        <span class="badge">ANALYSIS REPORT</span>
-        <h1 style="font-size: 1.75rem; font-weight: 800; margin: 0 0 8px 0;">맞춤형 자취방 우선순위 리포트</h1>
+        <h1 style="font-size: 1.65rem; font-weight: 800; margin: 0 0 8px 0;">나의 자취 라이프 분석 결과</h1>
         <p style="color: #475569; font-size: 0.96rem; margin: 0;">
-            가장 높은 우선순위는 <b style="color: #4F46E5;">{best_stat_name}</b>이며, 
-            상대적으로 타협 가능한 영역은 <b style="color: #E11D48;">{worst_stat_name}</b>입니다.
+            가장 중요한 기준은 <b style="color: #4F46E5;">{best_stat_name}</b>, 
+            월세를 아끼기 위해 타협할 기준은 <b style="color: #E11D48;">{worst_stat_name}</b>입니다.
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -436,8 +420,7 @@ elif st.session_state.step == 11:
     # 1. 영역별 주거 중요도 프로파일 (레이더 차트 + 지표 요약 카드)
     st.markdown("""
     <div class="ui-card" style="padding-bottom: 16px;">
-        <h3 style="font-size: 1.15rem; font-weight: 700; margin: 0 0 4px 0;">영역별 주거 중요도 프로파일</h3>
-        <p style="font-size: 0.85rem; color: #64748B; margin: 0 0 12px 0;">4대 핵심 지표별 누적 가중치 분포</p>
+        <h3 style="font-size: 1.15rem; font-weight: 700; margin: 0 0 14px 0;">영역별 주거 중요도 프로파일</h3>
     """, unsafe_allow_html=True)
 
     m_cols = st.columns(4)
@@ -475,7 +458,7 @@ elif st.session_state.step == 11:
         fillcolor='rgba(99, 102, 241, 0.20)',
         line=dict(color='#4F46E5', width=3),
         marker=dict(size=9, color='#FFFFFF', line=dict(color='#4F46E5', width=2.5)),
-        hovertemplate='<b>%{theta}</b><br>획득 점수: %{r}점<extra></extra>'
+        hovertemplate='<b>%{theta}</b><br>%{r}점<extra></extra>'
     ))
 
     fig.update_layout(
@@ -499,25 +482,25 @@ elif st.session_state.step == 11:
         showlegend=False,
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
-        height=360,
-        margin=dict(l=65, r=65, t=35, b=35)
+        height=350,
+        margin=dict(l=65, r=65, t=30, b=30)
     )
     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
     st.markdown("</div>", unsafe_allow_html=True)
 
-    # 2. 사수할 조건 TOP 3 vs 버려도 될 조건 TOP 3
+    # 2. 간결하게 압축된 TOP 3 체크리스트
     MUST_HAVE_MAP = {
-        "cost": ["① 보증금·월세 시세보다 저렴한 급매물", "② 관리비에 수도·인터넷이 포함된 방", "③ 옵션이 다소 부족해도 기본 구조가 멀쩡한 방"],
-        "defense": ["① 벌레 차단! 3층 이상 고층 & 신축·리모델링", "② 층간소음 방지! 콘크리트 가벽 및 탑층", "③ 밤길 안전! 대로변 위치 + 공동현관 CCTV"],
-        "home": ["① 우울감 타파! 햇빛 쨍쨍한 남향 채광", "② 냄새 차단! 분리형 원룸 또는 1.5룸 구조", "③ 넉넉한 수납공간 및 내부 풀옵션 구비"],
-        "lazy": ["① 1분이라도 더 자자! 도보 5분 이내 초역세권", "② 슬리퍼 상권! 도보 1분 컷 편의점 필수", "③ 밤늦게 귀가해도 환한 메인 상권 인접지"]
+        "cost": ["① 시세보다 저렴한 급매물", "② 수도·인터넷 포함 관리비", "③ 옵션보다 기본 구조 우선"],
+        "defense": ["① 3층 이상 고층 · 신축", "② 콘크리트 벽 · 탑층 구조", "③ 대로변 · 공동현관 보안"],
+        "home": ["① 채광 좋은 남향 배치", "② 분리형 원룸 · 1.5룸", "③ 넉넉한 수납 · 풀옵션"],
+        "lazy": ["① 도보 5분 이내 초역세권", "② 도보 1분 컷 편의점", "③ 밤에도 밝은 메인 상권"]
     }
 
     DROP_MAP = {
-        "cost": ["① 굳이 역 코앞 고집하기 (조금만 걸어도 월세 10만 원 세이브)", "② 최신식 풀옵션 신축 오피스텔 (높은 관리비의 주범)", "③ 불필요하게 넓은 평수 (청소 부담 및 냉난방비 증가)"],
-        "defense": ["① 신축 연식 집착 (구축이라도 도배·장판만 깔끔하면 OK)", "② 층수 제한 (1~2층도 방범창·방충망만 확인하면 가성비 우수)", "③ 대로변 프리미엄 (조용한 주택가 골목으로 보증금 절약)"],
-        "home": ["① 남향 채광 집착 (낮에 외출 비중이 높다면 북향·동향으로 월세 절약)", "② 큰 주방 및 분리형 구조 (인덕션 1구 오픈형 원룸으로 충분)", "③ 탁 트인 전망(View) (창문 앞이 막혀도 수면·휴식엔 무관)"],
-        "lazy": ["① 완전 평지 입지 (약간의 오르막을 감수하고 쾌적한 컨디션 확보)", "② 번화가 중심 상권 (식당가에서 벗어난 조용한 외곽 선택)", "③ 초역세권 도보 거리 (마을버스 10분 거리로 방 크기 업그레이드)"]
+        "cost": ["① 역세권 초근접 입지", "② 관리비 비싼 신축 오피스텔", "③ 불필요하게 넓은 평수"],
+        "defense": ["① 무조건 신축 연식 고집", "② 저층(1~2층) 기피", "③ 비싼 대로변 위치"],
+        "home": ["① 남향 채광 고집", "② 넓은 주방 · 분리형 구조", "③ 탁 트인 창밖 뷰(View)"],
+        "lazy": ["① 완전 평지 입지", "② 번화가 중심 상권", "③ 도보 5분 초역세권"]
     }
 
     col1, col2 = st.columns(2)
@@ -525,9 +508,8 @@ elif st.session_state.step == 11:
         items_html = "".join([f'<div class="guide-item">{item}</div>' for item in MUST_HAVE_MAP[best_stat_key]])
         st.markdown(f"""
         <div class="guide-card-must">
-            <div style="font-size: 0.78rem; font-weight: 700; color: #15803D; letter-spacing: 0.03em;">MUST-HAVE PRIORITY</div>
-            <h4 style="margin: 4px 0 6px 0; font-size: 1.1rem; font-weight: 800; color: #14532D;">절대 사수할 조건 TOP 3</h4>
-            <p style="font-size: 0.82rem; color: #166534; margin: 0 0 12px 0;">최우선 지표: <b>{best_stat_name}</b></p>
+            <h4 style="margin: 0 0 4px 0; font-size: 1.12rem; font-weight: 800; color: #14532D;">꼭 챙길 조건 TOP 3</h4>
+            <p style="font-size: 0.82rem; color: #166534; margin: 0 0 10px 0;">1순위 · <b>{best_stat_name}</b></p>
             {items_html}
         </div>
         """, unsafe_allow_html=True)
@@ -536,16 +518,15 @@ elif st.session_state.step == 11:
         drop_html = "".join([f'<div class="guide-item">{item}</div>' for item in DROP_MAP[worst_stat_key]])
         st.markdown(f"""
         <div class="guide-card-drop">
-            <div style="font-size: 0.78rem; font-weight: 700; color: #BE123C; letter-spacing: 0.03em;">BUDGET SAVING</div>
-            <h4 style="margin: 4px 0 6px 0; font-size: 1.1rem; font-weight: 800; color: #881337;">과감히 포기할 조건 TOP 3</h4>
-            <p style="font-size: 0.82rem; color: #9F1239; margin: 0 0 12px 0;">후순위 지표: <b>{worst_stat_name}</b></p>
+            <h4 style="margin: 0 0 4px 0; font-size: 1.12rem; font-weight: 800; color: #881337;">포기할 조건 TOP 3</h4>
+            <p style="font-size: 0.82rem; color: #9F1239; margin: 0 0 10px 0;">후순위 · <b>{worst_stat_name}</b></p>
             {drop_html}
         </div>
         """, unsafe_allow_html=True)
             
     st.write("")
     st.write("")
-    if st.button("처음부터 다시 진단하기", use_container_width=True):
+    if st.button("다시 진단하기", use_container_width=True):
         st.session_state.step = 0
         st.session_state.answers = {}
         st.rerun()

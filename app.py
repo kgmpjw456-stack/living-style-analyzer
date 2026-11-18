@@ -39,7 +39,7 @@ header {background-color: transparent !important;}
     max-width: 740px !important;
 }
 
-/* 첫 화면 히어로 박스 */
+/* 첫 화면 & 결과 상단 공통 히어로 박스 */
 .hero-box {
     background: linear-gradient(145deg, #FFFFFF 0%, #F5F7FF 100%);
     border: 1.5px solid #E2E8F0;
@@ -81,6 +81,19 @@ header {background-color: transparent !important;}
     margin: 0 0 26px 0;
     word-break: keep-all;
 }
+.pill-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #EEF2FF 0%, #FCE7F3 100%);
+    color: #4338CA;
+    padding: 6px 15px;
+    border-radius: 999px;
+    font-family: 'GmarketSans', sans-serif !important;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    margin-bottom: 14px;
+    border: 1px solid #C7D2FE;
+}
 .feature-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -106,7 +119,7 @@ header {background-color: transparent !important;}
     margin-bottom: 6px;
 }
 
-/* 질문 화면 전용 화려한 히어로 카드 */
+/* 질문 화면 전용 히어로 카드 */
 .q-hero-card {
     background: linear-gradient(145deg, #FFFFFF 0%, #F5F7FF 100%);
     border: 1.5px solid #E0E7FF;
@@ -123,19 +136,6 @@ header {background-color: transparent !important;}
     display: inline-block;
     animation: float 3.2s ease-in-out infinite;
 }
-.q-topic-pill {
-    display: inline-block;
-    background: linear-gradient(135deg, #EEF2FF 0%, #FCE7F3 100%);
-    color: #4338CA;
-    padding: 5px 14px;
-    border-radius: 999px;
-    font-family: 'GmarketSans', sans-serif !important;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    margin-bottom: 12px;
-    border: 1px solid #C7D2FE;
-}
 .q-main-title {
     font-family: 'GmarketSans', 'Pretendard', sans-serif !important;
     font-size: 1.38rem;
@@ -146,7 +146,7 @@ header {background-color: transparent !important;}
     word-break: keep-all;
 }
 
-/* 선지(라디오 버튼) 크기 확대 및 화려한 인터랙션 */
+/* 선지(라디오 버튼) 스타일링 */
 div[data-testid="stRadio"] > label {
     display: none !important;
 }
@@ -241,12 +241,12 @@ div.stButton > button[kind="primary"] p {
 
 /* 입력창 및 결과 화면 카드 */
 div[data-testid="stVerticalBlockBorderWrapper"] {
-    background-color: #FFFFFF !important;
-    border: 1.5px solid #E2E8F0 !important;
-    border-radius: 20px !important;
-    padding: 18px 22px !important;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04) !important;
-    margin-bottom: 20px !important;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFD 100%) !important;
+    border: 1.5px solid #E0E7FF !important;
+    border-radius: 24px !important;
+    padding: 22px 24px !important;
+    box-shadow: 0 10px 30px -8px rgba(79, 70, 229, 0.09) !important;
+    margin-bottom: 22px !important;
 }
 div[data-testid="stTextInput"] input {
     background-color: #FFFFFF !important;
@@ -259,20 +259,27 @@ div[data-testid="stTextInput"] input:focus {
     border-color: #4F46E5 !important;
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
 }
-.ui-card {
-    background-color: #FFFFFF;
-    border: 1.5px solid #E2E8F0;
-    border-radius: 20px;
-    padding: 24px;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
-    margin-bottom: 20px;
-}
+
+/* 결과 화면 4대 지수 미니 카드 */
 .metric-box {
     background-color: #F8FAFC;
-    border: 1px solid #E2E8F0;
-    border-radius: 14px;
-    padding: 12px 8px;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 14px 8px;
     text-align: center;
+    transition: all 0.2s ease;
+}
+.metric-box-top {
+    background: linear-gradient(145deg, #EEF2FF 0%, #FCE7F3 100%);
+    border: 1.5px solid #6366F1;
+    border-radius: 16px;
+    padding: 14px 8px;
+    text-align: center;
+    box-shadow: 0 6px 16px -4px rgba(79, 70, 229, 0.18);
+}
+.metric-icon {
+    font-size: 1.25rem;
+    margin-bottom: 4px;
 }
 .metric-label {
     font-size: 0.78rem;
@@ -282,34 +289,63 @@ div[data-testid="stTextInput"] input:focus {
 }
 .metric-value {
     font-family: 'GmarketSans', sans-serif !important;
-    font-size: 1.2rem;
+    font-size: 1.22rem;
     color: #0F172A;
     font-weight: 700;
 }
+
+/* 결과 화면 하단 조건 카드 */
 .guide-card-must {
-    background-color: #F0FDF4;
-    border: 1.5px solid #BBF7D0;
-    border-radius: 18px;
-    padding: 20px;
+    background: linear-gradient(145deg, #F0FDF4 0%, #DCFCE7 100%);
+    border: 1.5px solid #86EFAC;
+    border-radius: 22px;
+    padding: 22px 20px;
     height: 100%;
+    box-shadow: 0 10px 26px -8px rgba(22, 163, 74, 0.16);
 }
 .guide-card-drop {
-    background-color: #FFF1F2;
-    border: 1.5px solid #FECDD3;
-    border-radius: 18px;
-    padding: 20px;
+    background: linear-gradient(145deg, #FFF1F2 0%, #FFE4E6 100%);
+    border: 1.5px solid #FDA4AF;
+    border-radius: 22px;
+    padding: 22px 20px;
     height: 100%;
+    box-shadow: 0 10px 26px -8px rgba(225, 29, 72, 0.16);
+}
+.guide-pill-must {
+    display: inline-block;
+    background-color: #FFFFFF;
+    color: #15803D;
+    font-family: 'GmarketSans', sans-serif !important;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 11px;
+    border-radius: 999px;
+    border: 1px solid #86EFAC;
+    margin-bottom: 10px;
+}
+.guide-pill-drop {
+    display: inline-block;
+    background-color: #FFFFFF;
+    color: #BE123C;
+    font-family: 'GmarketSans', sans-serif !important;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 11px;
+    border-radius: 999px;
+    border: 1px solid #FDA4AF;
+    margin-bottom: 10px;
 }
 .guide-item {
-    background-color: rgba(255, 255, 255, 0.92);
-    border-radius: 12px;
+    background-color: #FFFFFF;
+    border-radius: 13px;
     padding: 12px 14px;
-    margin-top: 8px;
+    margin-top: 9px;
     font-size: 0.95rem;
     color: #1E293B;
     font-weight: 600;
     line-height: 1.45;
     word-break: keep-all;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
 }
 
 @media (max-width: 600px) {
@@ -480,9 +516,7 @@ if st.session_state.step == 0:
     st.markdown("""
 <div class="hero-box">
 <div class="hero-emoji">🛋️✨</div>
-<div>
-<span style="display: inline-block; background: #EEF2FF; color: #4F46E5; padding: 6px 14px; border-radius: 20px; font-family: 'GmarketSans', sans-serif; font-size: 0.82rem; font-weight: 700; margin-bottom: 14px;">자취 초보를 위한 성향 테스트</span>
-</div>
+<div><span class="pill-badge">자취 초보를 위한 성향 테스트</span></div>
 <h1 class="hero-title">자취방 구하기 전,<br><span class="hero-highlight">나의 라이프 파악하기 🔍</span></h1>
 <p class="hero-desc">부동산에 가기 전, 내 생활 패턴부터 정확히 알아야 <b>소중한 보증금과 월세</b>를 지킬 수 있습니다.<br>10개의 문항으로 나에게 꼭 맞는 맞춤형 자취 조건을 찾아보세요!</p>
 <div class="feature-grid">
@@ -514,7 +548,7 @@ if st.session_state.step == 0:
         st.session_state.step = 1
         st.rerun()
 
-# [Step 1 ~ 10: 화려하게 리뉴얼된 질문 화면]
+# [Step 1 ~ 10: 질문 화면]
 elif 1 <= st.session_state.step <= 10:
     current_idx = st.session_state.step - 1
     q_data = QUESTIONS[current_idx]
@@ -530,7 +564,7 @@ elif 1 <= st.session_state.step <= 10:
 </div>
 <div class="q-hero-card">
 <div class="q-emoji-badge">{q_data["emoji"]}</div>
-<div><span class="q-topic-pill">{q_data["tag"]}</span></div>
+<div><span class="pill-badge">{q_data["tag"]}</span></div>
 <h2 class="q-main-title">{q_data["q_head"]}<br><span class="hero-highlight">{q_data["q_highlight"]}</span></h2>
 </div>
 """, unsafe_allow_html=True)
@@ -555,7 +589,7 @@ elif 1 <= st.session_state.step <= 10:
             st.session_state.step += 1
             st.rerun()
 
-# [Step 11: 결과 분석 화면]
+# [Step 11: 생동감 있게 리뉴얼된 결과 분석 화면]
 elif st.session_state.step == 11:
     with st.spinner('내 라이프스타일에 맞는 방 조건을 정리 중입니다...'):
         time.sleep(0.8)
@@ -576,6 +610,12 @@ elif st.session_state.step == 11:
         "home": "방구석라이프 지수",
         "lazy": "귀차니즘 지수"
     }
+    emoji_map = {
+        "cost": "💰",
+        "defense": "🛡️",
+        "home": "🪟",
+        "lazy": "🚶"
+    }
 
     sorted_stats = sorted(totals.items(), key=lambda x: x[1], reverse=True)
     best_stat_key = sorted_stats[0][0]
@@ -583,28 +623,35 @@ elif st.session_state.step == 11:
 
     best_stat_name = label_map[best_stat_key]
     worst_stat_name = label_map[worst_stat_key]
+    best_emoji = emoji_map[best_stat_key]
 
+    # 1. 상단 결과 히어로 카드 (첫 화면·질문 화면과 통일된 디자인)
     st.markdown(f"""
-<div class="ui-card" style="margin-bottom: 20px;">
-<h1 style="font-family: 'GmarketSans', sans-serif; font-size: 1.55rem; font-weight: 700; margin: 0 0 8px 0;">나의 자취 라이프 분석 결과 📊</h1>
-<p style="color: #475569; font-size: 0.96rem; margin: 0; word-break: keep-all;">가장 중요한 기준은 <b style="color: #4F46E5;">{best_stat_name}</b>, 월세를 아끼기 위해 타협할 기준은 <b style="color: #E11D48;">{worst_stat_name}</b>입니다.</p>
+<div class="hero-box" style="padding: 34px 24px; margin-bottom: 22px;">
+<div class="hero-emoji" style="font-size: 3.8rem;">{best_emoji}✨</div>
+<div><span class="pill-badge">MY HOUSING PROFILE</span></div>
+<h1 class="hero-title" style="font-size: 1.75rem; margin-bottom: 12px;">자취방 선택의 핵심 기준은<br><span class="hero-highlight">{best_stat_name}</span> 입니다!</h1>
+<p class="hero-desc" style="margin-bottom: 0; font-size: 0.96rem;">반면 <b style="color: #E11D48;">{worst_stat_name}</b> 영역의 조건은 과감히 타협하여<br>보증금과 월세 예산을 효율적으로 아낄 수 있습니다.</p>
 </div>
 """, unsafe_allow_html=True)
 
+    # 2. 영역별 주거 중요도 프로파일 카드
     with st.container(border=True):
-        st.markdown('<h3 style="font-family: \'GmarketSans\', sans-serif; font-size: 1.12rem; font-weight: 700; margin: 4px 0 14px 0;">영역별 주거 중요도 프로파일</h3>', unsafe_allow_html=True)
+        st.markdown('<div style="text-align: center; margin-bottom: 14px;"><h3 style="font-family: \'GmarketSans\', sans-serif; font-size: 1.18rem; font-weight: 700; margin: 2px 0 4px 0;">📊 영역별 주거 중요도 프로파일</h3><p style="font-size: 0.84rem; color: #64748B; margin: 0;">4대 핵심 지표별 나의 성향 분포</p></div>', unsafe_allow_html=True)
 
         m_cols = st.columns(4)
         short_names = ["통장수호", "예민보스", "방구석라이프", "귀차니즘"]
         stat_keys = ["cost", "defense", "home", "lazy"]
         for idx, col in enumerate(m_cols):
-            val = totals[stat_keys[idx]]
-            is_top = (stat_keys[idx] == best_stat_key)
-            border_style = "border: 1.5px solid #4F46E5; background-color: #EEF2FF;" if is_top else ""
+            key = stat_keys[idx]
+            val = totals[key]
+            is_top = (key == best_stat_key)
+            box_class = "metric-box-top" if is_top else "metric-box"
             val_color = "#4F46E5" if is_top else "#0F172A"
             with col:
                 st.markdown(f"""
-<div class="metric-box" style="{border_style}">
+<div class="{box_class}">
+<div class="metric-icon">{emoji_map[key]}</div>
 <div class="metric-label">{short_names[idx]}</div>
 <div class="metric-value" style="color: {val_color};">{val}점</div>
 </div>
@@ -626,15 +673,15 @@ elif st.session_state.step == 11:
             r=values_closed,
             theta=categories_closed,
             fill='toself',
-            fillcolor='rgba(99, 102, 241, 0.20)',
-            line=dict(color='#4F46E5', width=2.5),
-            marker=dict(size=8, color='#FFFFFF', line=dict(color='#4F46E5', width=2.5)),
+            fillcolor='rgba(99, 102, 241, 0.22)',
+            line=dict(color='#4F46E5', width=3),
+            marker=dict(size=9, color='#EC4899', line=dict(color='#FFFFFF', width=2)),
             hovertemplate='<b>%{theta}</b><br>%{r}점<extra></extra>'
         ))
 
         fig.update_layout(
             polar=dict(
-                bgcolor='rgba(248, 250, 252, 0.6)',
+                bgcolor='rgba(248, 250, 252, 0.7)',
                 radialaxis=dict(
                     visible=True,
                     range=[0, max_range],
@@ -653,23 +700,24 @@ elif st.session_state.step == 11:
             showlegend=False,
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
-            height=280,
+            height=290,
             margin=dict(l=95, r=95, t=42, b=42)
         )
         st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
 
+    # 3. 입체 체크리스트 카드 (순위 없이 병렬 제시)
     MUST_HAVE_MAP = {
-        "cost": ["• 시세보다 저렴한 급매물", "• 수도·인터넷 포함 관리비", "• 옵션보다 기본 구조 우선"],
-        "defense": ["• 3층 이상 고층 · 신축", "• 콘크리트 벽 · 탑층 구조", "• 대로변 · 공동현관 보안"],
-        "home": ["• 채광 좋은 남향 배치", "• 분리형 원룸 · 1.5룸", "• 넉넉한 수납 · 풀옵션"],
-        "lazy": ["• 도보 5분 이내 초역세권", "• 도보 1분 컷 편의점", "• 밤에도 밝은 메인 상권"]
+        "cost": ["✔ 시세보다 저렴한 급매물", "✔ 수도·인터넷 포함 관리비", "✔ 옵션보다 기본 구조 우선"],
+        "defense": ["✔ 3층 이상 고층 · 신축", "✔ 콘크리트 벽 · 탑층 구조", "✔ 대로변 · 공동현관 보안"],
+        "home": ["✔ 채광 좋은 남향 배치", "✔ 분리형 원룸 · 1.5룸", "✔ 넉넉한 수납 · 풀옵션"],
+        "lazy": ["✔ 도보 5분 이내 초역세권", "✔ 도보 1분 컷 편의점", "✔ 밤에도 밝은 메인 상권"]
     }
 
     DROP_MAP = {
-        "cost": ["• 역세권 초근접 입지", "• 관리비 비싼 신축 오피스텔", "• 불필요하게 넓은 평수"],
-        "defense": ["• 무조건 신축 연식 고집", "• 저층(1~2층) 기피", "• 비싼 대로변 위치"],
-        "home": ["• 남향 채광 고집", "• 넓은 주방 · 분리형 구조", "• 탁 트인 창밖 뷰(View)"],
-        "lazy": ["• 완전 평지 입지", "• 번화가 중심 상권", "• 도보 5분 초역세권"]
+        "cost": ["➖ 역세권 초근접 입지", "➖ 관리비 비싼 신축 오피스텔", "➖ 불필요하게 넓은 평수"],
+        "defense": ["➖ 무조건 신축 연식 고집", "➖ 저층(1~2층) 기피", "➖ 비싼 대로변 위치"],
+        "home": ["➖ 남향 채광 고집", "➖ 넓은 주방 · 분리형 구조", "➖ 탁 트인 창밖 뷰(View)"],
+        "lazy": ["➖ 완전 평지 입지", "➖ 번화가 중심 상권", "➖ 도보 5분 초역세권"]
     }
 
     col1, col2 = st.columns(2)
@@ -677,8 +725,9 @@ elif st.session_state.step == 11:
         items_html = "".join([f'<div class="guide-item">{item}</div>' for item in MUST_HAVE_MAP[best_stat_key]])
         st.markdown(f"""
 <div class="guide-card-must">
-<h4 style="font-family: 'GmarketSans', sans-serif; margin: 0 0 4px 0; font-size: 1.1rem; font-weight: 700; color: #14532D;">우선 고려할 조건</h4>
-<p style="font-size: 0.82rem; color: #166534; margin: 0 0 10px 0;">최우선 성향 · <b>{best_stat_name}</b></p>
+<div><span class="guide-pill-must">MUST-HAVE · 최우선</span></div>
+<h4 style="font-family: 'GmarketSans', sans-serif; margin: 0 0 4px 0; font-size: 1.15rem; font-weight: 700; color: #14532D;">✅ 우선 고려할 조건</h4>
+<p style="font-size: 0.84rem; color: #166534; margin: 0 0 10px 0;">핵심 기준 · <b>{best_stat_name}</b></p>
 {items_html}
 </div>
 """, unsafe_allow_html=True)
@@ -687,15 +736,16 @@ elif st.session_state.step == 11:
         drop_html = "".join([f'<div class="guide-item">{item}</div>' for item in DROP_MAP[worst_stat_key]])
         st.markdown(f"""
 <div class="guide-card-drop">
-<h4 style="font-family: 'GmarketSans', sans-serif; margin: 0 0 4px 0; font-size: 1.1rem; font-weight: 700; color: #881337;">타협 가능한 조건</h4>
-<p style="font-size: 0.82rem; color: #9F1239; margin: 0 0 10px 0;">후순위 성향 · <b>{worst_stat_name}</b></p>
+<div><span class="guide-pill-drop">FLEXIBLE · 예산 절약</span></div>
+<h4 style="font-family: 'GmarketSans', sans-serif; margin: 0 0 4px 0; font-size: 1.15rem; font-weight: 700; color: #881337;">✂️ 타협 가능한 조건</h4>
+<p style="font-size: 0.84rem; color: #9F1239; margin: 0 0 10px 0;">타협 기준 · <b>{worst_stat_name}</b></p>
 {drop_html}
 </div>
 """, unsafe_allow_html=True)
 
     st.write("")
     st.write("")
-    if st.button("🔄 다시 진단하기", use_container_width=True):
+    if st.button("🔄 처음부터 다시 진단하기", type="primary", use_container_width=True):
         st.session_state.step = 0
         st.session_state.answers = {}
         st.rerun()

@@ -6,7 +6,7 @@ import time
 # --- 1. 페이지 기본 설정 ---
 st.set_page_config(page_title="자취방 구하기 전, 나의 라이프 파악하기", page_icon="🛋️", layout="centered")
 
-# --- 2. 모던 UI 커스텀 CSS 주입 ---
+# --- 2. 모던 반응형 CSS 주입 ---
 st.markdown("""
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
@@ -27,36 +27,31 @@ header {background-color: transparent !important;}
     max-width: 720px !important;
 }
 
-h1, h2, h3, h4, p, span, label {
-    color: #0F172A;
-}
-
-/* 첫 화면(Hero Section) 디자인 */
 .hero-box {
     background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
     border: 1px solid #e2e8f0;
     border-radius: 28px;
-    padding: 40px 24px;
+    padding: 36px 24px;
     text-align: center;
     box-shadow: 0 10px 40px -10px rgba(79, 70, 229, 0.1);
     margin-bottom: 24px;
 }
 .hero-emoji {
-    font-size: 4.5rem;
+    font-size: 4rem;
     margin-bottom: 12px;
     display: inline-block;
     animation: float 3s ease-in-out infinite;
 }
 @keyframes float {
     0% { transform: translateY(0px); }
-    50% { transform: translateY(-12px); }
+    50% { transform: translateY(-10px); }
     100% { transform: translateY(0px); }
 }
 .hero-title {
-    font-size: 2.1rem;
+    font-size: 1.85rem;
     font-weight: 800;
     line-height: 1.35;
-    margin-bottom: 16px;
+    margin: 0 0 14px 0;
     color: #0F172A;
     word-break: keep-all;
 }
@@ -67,36 +62,35 @@ h1, h2, h3, h4, p, span, label {
 }
 .hero-desc {
     color: #475569;
-    font-size: 1.05rem;
+    font-size: 0.98rem;
     line-height: 1.6;
-    margin-bottom: 24px;
+    margin: 0 0 24px 0;
     word-break: keep-all;
 }
 .feature-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
 }
 .feature-item {
     background: #F1F5F9;
     border-radius: 18px;
-    padding: 18px;
+    padding: 16px;
     text-align: left;
     border: 1px solid #E2E8F0;
     transition: all 0.2s ease;
 }
 .feature-item:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     background: #EEF2FF;
     border-color: #C7D2FE;
     box-shadow: 0 6px 15px rgba(79, 70, 229, 0.08);
 }
 .feature-icon {
-    font-size: 1.6rem;
-    margin-bottom: 8px;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
 }
 
-/* 문항 및 결과 화면 스타일링 (기존 유지) */
 div[data-testid="stVerticalBlockBorderWrapper"] {
     background-color: #FFFFFF !important;
     border: 1px solid #E2E8F0 !important;
@@ -115,25 +109,27 @@ div[data-testid="stTextInput"] input:focus {
     border-color: #4F46E5 !important;
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
 }
+
 div[data-testid="stRadio"] > label {
     display: none !important;
 }
 div[data-testid="stRadio"] > div {
-    gap: 12px !important;
+    gap: 10px !important;
 }
 div[data-testid="stRadio"] label[data-baseweb="radio"] {
     background-color: #FFFFFF !important;
     border: 1.5px solid #E2E8F0 !important;
     border-radius: 14px !important;
-    padding: 16px 20px !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    padding: 14px 18px !important;
     cursor: pointer !important;
     width: 100% !important;
+    height: auto !important;
+    min-height: 52px !important;
+    transition: all 0.2s ease !important;
 }
 div[data-testid="stRadio"] label[data-baseweb="radio"]:hover {
     border-color: #818CF8 !important;
     background-color: #F5F7FF !important;
-    transform: translateY(-1px);
 }
 div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
     border-color: #4F46E5 !important;
@@ -141,21 +137,26 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.12) !important;
 }
 div[data-testid="stRadio"] label[data-baseweb="radio"] p {
-    font-size: 1rem !important;
+    color: #1E293B !important;
+    font-size: 0.96rem !important;
     font-weight: 500 !important;
+    white-space: normal !important;
+    word-break: keep-all !important;
+    line-height: 1.45 !important;
 }
 div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     color: #312E81 !important;
     font-weight: 600 !important;
 }
+
 div.stButton > button {
     border-radius: 14px !important;
     padding: 0.65rem 1.2rem !important;
     font-weight: 700 !important;
-    font-size: 1rem !important;
-    transition: all 0.2s ease !important;
+    font-size: 0.98rem !important;
     border: 1.5px solid #CBD5E1 !important;
     background-color: #FFFFFF !important;
+    color: #334155 !important;
 }
 div.stButton > button:hover {
     border-color: #94A3B8 !important;
@@ -171,16 +172,16 @@ div.stButton > button[kind="primary"] {
 div.stButton > button[kind="primary"]:hover {
     background-color: #4338CA !important;
     border-color: #4338CA !important;
-    transform: translateY(-1px);
 }
 div.stButton > button[kind="primary"] p {
     color: #FFFFFF !important;
 }
+
 .ui-card {
     background-color: #FFFFFF;
     border: 1px solid #E2E8F0;
     border-radius: 18px;
-    padding: 28px;
+    padding: 24px;
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
     margin-bottom: 20px;
 }
@@ -190,30 +191,30 @@ div.stButton > button[kind="primary"] p {
     border-radius: 999px;
     height: 8px;
     margin-top: 8px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     overflow: hidden;
 }
 .progress-fill {
     height: 100%;
     background: linear-gradient(90deg, #6366F1 0%, #4F46E5 100%);
     border-radius: 999px;
-    transition: width 0.35s ease;
+    transition: width 0.3s ease;
 }
 .metric-box {
     background-color: #F8FAFC;
     border: 1px solid #E2E8F0;
     border-radius: 12px;
-    padding: 12px 10px;
+    padding: 12px 8px;
     text-align: center;
 }
 .metric-label {
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     color: #64748B;
     font-weight: 600;
     margin-bottom: 4px;
 }
 .metric-value {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     color: #0F172A;
     font-weight: 800;
 }
@@ -221,25 +222,32 @@ div.stButton > button[kind="primary"] p {
     background-color: #F0FDF4;
     border: 1px solid #BBF7D0;
     border-radius: 16px;
-    padding: 20px;
+    padding: 18px;
     height: 100%;
 }
 .guide-card-drop {
     background-color: #FFF1F2;
     border: 1px solid #FECDD3;
     border-radius: 16px;
-    padding: 20px;
+    padding: 18px;
     height: 100%;
 }
 .guide-item {
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
-    padding: 11px 14px;
+    padding: 10px 14px;
     margin-top: 8px;
-    font-size: 0.92rem;
+    font-size: 0.9rem;
     color: #1E293B;
     font-weight: 600;
     line-height: 1.4;
+    word-break: keep-all;
+}
+
+@media (max-width: 600px) {
+    .hero-title { font-size: 1.5rem !important; }
+    .hero-emoji { font-size: 3.3rem !important; }
+    .feature-grid { grid-template-columns: 1fr !important; }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -255,12 +263,12 @@ if "answers" not in st.session_state:
 # --- 4. 비밀번호 인증 ---
 if not st.session_state.authenticated:
     st.markdown("""
-    <div class="hero-box" style="padding: 30px;">
-        <h2 style="margin: 0 0 8px 0; font-size: 1.55rem; font-weight: 800;">자취방 구하기 전, 나의 라이프 파악하기</h2>
-        <p style="color: #64748B; font-size: 0.95rem; margin-bottom: 0;">계속하려면 입장 비밀번호를 입력해 주세요.</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
+<div class="hero-box" style="padding: 30px 20px;">
+<h2 style="margin: 0 0 8px 0; font-size: 1.4rem; font-weight: 800; word-break: keep-all;">자취방 구하기 전, 나의 라이프 파악하기</h2>
+<p style="color: #64748B; font-size: 0.92rem; margin: 0;">계속하려면 입장 비밀번호를 입력해 주세요.</p>
+</div>
+""", unsafe_allow_html=True)
+
     password = st.text_input("비밀번호", type="password", placeholder="비밀번호 입력", label_visibility="collapsed")
     st.write("")
     if st.button("입장하기", type="primary", use_container_width=True):
@@ -271,7 +279,7 @@ if not st.session_state.authenticated:
             st.error("비밀번호가 일치하지 않습니다.")
     st.stop()
 
-# --- 5. 10개의 4지선다 질문 데이터 ---
+# --- 5. 10개의 4지선다 질문 데이터 (4대 지수 균형 배점) ---
 QUESTIONS = [
     {
         "q": "Q1. 한 달에 숨만 쉬고 나가는 월세, 나의 마지노선은?",
@@ -367,47 +375,40 @@ QUESTIONS = [
 
 # --- 6. 화면 렌더링 로직 ---
 
-# [Step 0: 트렌디한 메인 웰컴 화면]
+# [Step 0: 메인 웰컴 화면]
 if st.session_state.step == 0:
     st.markdown("""
-    <div class="hero-box">
-        <div class="hero-emoji">🛋️✨</div>
-        <div style="display: inline-block; background: #EEF2FF; color: #4F46E5; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 800; margin-bottom: 16px; letter-spacing: 0.05em;">
-            자취 초보를 위한 성향 테스트
-        </div>
-        <h1 class="hero-title">
-            자취방 구하기 전,<br>
-            <span class="hero-highlight">나의 라이프 파악하기 🔍</span>
-        </h1>
-        <p class="hero-desc">
-            부동산에 가기 전, 내 생활 패턴부터 정확히 알아야 <b>소중한 보증금과 월세</b>를 지킬 수 있습니다.<br>
-            10개의 문항으로 나에게 꼭 맞는 맞춤형 자취 조건을 찾아보세요!
-        </p>
-        
-        <div class="feature-grid">
-            <div class="feature-item">
-                <div class="feature-icon">💰</div>
-                <div style="font-weight: 800; color: #1E293B; font-size: 0.95rem;">통장수호 지수</div>
-                <div style="font-size: 0.8rem; color: #64748B; margin-top: 4px;">월세·고정지출 민감도</div>
-            </div>
-            <div class="feature-item">
-                <div class="feature-icon">🛡️</div>
-                <div style="font-weight: 800; color: #1E293B; font-size: 0.95rem;">예민보스 지수</div>
-                <div style="font-size: 0.8rem; color: #64748B; margin-top: 4px;">방음·위생·치안 요구 수준</div>
-            </div>
-            <div class="feature-item">
-                <div class="feature-icon">🪟</div>
-                <div style="font-weight: 800; color: #1E293B; font-size: 0.95rem;">방구석라이프 지수</div>
-                <div style="font-size: 0.8rem; color: #64748B; margin-top: 4px;">채광·주방·실내 거주 비중</div>
-            </div>
-            <div class="feature-item">
-                <div class="feature-icon">🚶</div>
-                <div style="font-weight: 800; color: #1E293B; font-size: 0.95rem;">귀차니즘 지수</div>
-                <div style="font-size: 0.8rem; color: #64748B; margin-top: 4px;">통학 거리 및 상권 인프라</div>
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+<div class="hero-box">
+<div class="hero-emoji">🛋️✨</div>
+<div>
+<span style="display: inline-block; background: #EEF2FF; color: #4F46E5; padding: 6px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 800; margin-bottom: 14px;">자취 초보를 위한 성향 테스트</span>
+</div>
+<h1 class="hero-title">자취방 구하기 전,<br><span class="hero-highlight">나의 라이프 파악하기 🔍</span></h1>
+<p class="hero-desc">부동산에 가기 전, 내 생활 패턴부터 정확히 알아야 <b>소중한 보증금과 월세</b>를 지킬 수 있습니다.<br>10개의 문항으로 나에게 꼭 맞는 맞춤형 자취 조건을 찾아보세요!</p>
+<div class="feature-grid">
+<div class="feature-item">
+<div class="feature-icon">💰</div>
+<div style="font-weight: 800; color: #1E293B; font-size: 0.95rem;">통장수호 지수</div>
+<div style="font-size: 0.8rem; color: #64748B; margin-top: 4px;">월세·고정지출 민감도</div>
+</div>
+<div class="feature-item">
+<div class="feature-icon">🛡️</div>
+<div style="font-weight: 800; color: #1E293B; font-size: 0.95rem;">예민보스 지수</div>
+<div style="font-size: 0.8rem; color: #64748B; margin-top: 4px;">방음·위생·치안 요구 수준</div>
+</div>
+<div class="feature-item">
+<div class="feature-icon">🪟</div>
+<div style="font-weight: 800; color: #1E293B; font-size: 0.95rem;">방구석라이프 지수</div>
+<div style="font-size: 0.8rem; color: #64748B; margin-top: 4px;">채광·주방·실내 거주 비중</div>
+</div>
+<div class="feature-item">
+<div class="feature-icon">🚶</div>
+<div style="font-weight: 800; color: #1E293B; font-size: 0.95rem;">귀차니즘 지수</div>
+<div style="font-size: 0.8rem; color: #64748B; margin-top: 4px;">통학 거리 및 상권 인프라</div>
+</div>
+</div>
+</div>
+""", unsafe_allow_html=True)
 
     if st.button("🚀 내 라이프 진단 시작하기", type="primary", use_container_width=True):
         st.session_state.step = 1
@@ -420,26 +421,24 @@ elif 1 <= st.session_state.step <= 10:
     progress_pct = int((st.session_state.step / 10) * 100)
 
     st.markdown(f"""
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 0.85rem; font-weight: 800; color: #4F46E5;">{st.session_state.step:02d} / 10</span>
-        <span style="font-size: 0.85rem; font-weight: 800; color: #64748B;">{progress_pct}%</span>
-    </div>
-    <div class="progress-wrapper">
-        <div class="progress-fill" style="width: {progress_pct}%;"></div>
-    </div>
-    <div class="ui-card" style="padding: 24px 28px; margin-bottom: 18px;">
-        <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; line-height: 1.45; color: #0F172A;">
-            {q_data["q"]}
-        </h3>
-    </div>
-    """, unsafe_allow_html=True)
-    
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<span style="font-size: 0.85rem; font-weight: 800; color: #4F46E5;">{st.session_state.step:02d} / 10</span>
+<span style="font-size: 0.85rem; font-weight: 800; color: #64748B;">{progress_pct}%</span>
+</div>
+<div class="progress-wrapper">
+<div class="progress-fill" style="width: {progress_pct}%;"></div>
+</div>
+<div class="ui-card" style="padding: 22px 24px; margin-bottom: 16px;">
+<h3 style="margin: 0; font-size: 1.2rem; font-weight: 800; line-height: 1.45; color: #0F172A; word-break: keep-all;">{q_data["q"]}</h3>
+</div>
+""", unsafe_allow_html=True)
+
     option_texts = [opt["text"] for opt in q_data["options"]]
     default_idx = st.session_state.answers.get(current_idx, 0)
     choice = st.radio("선택지", option_texts, index=default_idx, key=f"radio_{current_idx}")
-    
+
     st.write("")
-    
+
     col1, col2 = st.columns([1, 2])
     with col1:
         if st.session_state.step > 1:
@@ -458,43 +457,40 @@ elif 1 <= st.session_state.step <= 10:
 elif st.session_state.step == 11:
     with st.spinner('내 라이프스타일에 맞는 방 조건을 정리 중입니다...'):
         time.sleep(0.8)
-        
+
     totals = {"cost": 0, "defense": 0, "home": 0, "lazy": 0}
     for q_idx, opt_idx in st.session_state.answers.items():
         scores = QUESTIONS[q_idx]["options"][opt_idx]["scores"]
         for k, v in scores.items():
             totals[k] += v
-            
+
     for k in totals:
         if totals[k] < 1:
             totals[k] = 1
 
     label_map = {
-        "cost": "통장수호 지수", 
-        "defense": "예민보스 지수", 
-        "home": "방구석라이프 지수", 
+        "cost": "통장수호 지수",
+        "defense": "예민보스 지수",
+        "home": "방구석라이프 지수",
         "lazy": "귀차니즘 지수"
     }
-    
+
     sorted_stats = sorted(totals.items(), key=lambda x: x[1], reverse=True)
     best_stat_key = sorted_stats[0][0]
     worst_stat_key = sorted_stats[-1][0]
-    
+
     best_stat_name = label_map[best_stat_key]
     worst_stat_name = label_map[worst_stat_key]
 
     st.markdown(f"""
-    <div class="ui-card" style="margin-bottom: 20px;">
-        <h1 style="font-size: 1.65rem; font-weight: 800; margin: 0 0 8px 0;">나의 자취 라이프 분석 결과</h1>
-        <p style="color: #475569; font-size: 0.96rem; margin: 0;">
-            가장 중요한 기준은 <b style="color: #4F46E5;">{best_stat_name}</b>, 
-            월세를 아끼기 위해 타협할 기준은 <b style="color: #E11D48;">{worst_stat_name}</b>입니다.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+<div class="ui-card" style="margin-bottom: 20px;">
+<h1 style="font-size: 1.55rem; font-weight: 800; margin: 0 0 8px 0;">나의 자취 라이프 분석 결과</h1>
+<p style="color: #475569; font-size: 0.95rem; margin: 0; word-break: keep-all;">가장 중요한 기준은 <b style="color: #4F46E5;">{best_stat_name}</b>, 월세를 아끼기 위해 타협할 기준은 <b style="color: #E11D48;">{worst_stat_name}</b>입니다.</p>
+</div>
+""", unsafe_allow_html=True)
 
     with st.container(border=True):
-        st.markdown('<h3 style="font-size: 1.15rem; font-weight: 800; margin: 4px 0 14px 0;">영역별 주거 중요도 프로파일</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style="font-size: 1.12rem; font-weight: 800; margin: 4px 0 14px 0;">영역별 주거 중요도 프로파일</h3>', unsafe_allow_html=True)
 
         m_cols = st.columns(4)
         short_names = ["통장수호", "예민보스", "방구석라이프", "귀차니즘"]
@@ -506,11 +502,11 @@ elif st.session_state.step == 11:
             val_color = "#4F46E5" if is_top else "#0F172A"
             with col:
                 st.markdown(f"""
-                <div class="metric-box" style="{border_style}">
-                    <div class="metric-label">{short_names[idx]}</div>
-                    <div class="metric-value" style="color: {val_color};">{val}점</div>
-                </div>
-                """, unsafe_allow_html=True)
+<div class="metric-box" style="{border_style}">
+<div class="metric-label">{short_names[idx]}</div>
+<div class="metric-value" style="color: {val_color};">{val}점</div>
+</div>
+""", unsafe_allow_html=True)
 
         categories = [
             "통장수호 지수<br>(가성비)",
@@ -578,23 +574,23 @@ elif st.session_state.step == 11:
     with col1:
         items_html = "".join([f'<div class="guide-item">{item}</div>' for item in MUST_HAVE_MAP[best_stat_key]])
         st.markdown(f"""
-        <div class="guide-card-must">
-            <h4 style="margin: 0 0 4px 0; font-size: 1.12rem; font-weight: 800; color: #14532D;">우선 고려할 조건</h4>
-            <p style="font-size: 0.82rem; color: #166534; margin: 0 0 10px 0;">최우선 성향 · <b>{best_stat_name}</b></p>
-            {items_html}
-        </div>
-        """, unsafe_allow_html=True)
-            
+<div class="guide-card-must">
+<h4 style="margin: 0 0 4px 0; font-size: 1.1rem; font-weight: 800; color: #14532D;">우선 고려할 조건</h4>
+<p style="font-size: 0.82rem; color: #166534; margin: 0 0 10px 0;">최우선 성향 · <b>{best_stat_name}</b></p>
+{items_html}
+</div>
+""", unsafe_allow_html=True)
+
     with col2:
         drop_html = "".join([f'<div class="guide-item">{item}</div>' for item in DROP_MAP[worst_stat_key]])
         st.markdown(f"""
-        <div class="guide-card-drop">
-            <h4 style="margin: 0 0 4px 0; font-size: 1.12rem; font-weight: 800; color: #881337;">타협 가능한 조건</h4>
-            <p style="font-size: 0.82rem; color: #9F1239; margin: 0 0 10px 0;">후순위 성향 · <b>{worst_stat_name}</b></p>
-            {drop_html}
-        </div>
-        """, unsafe_allow_html=True)
-            
+<div class="guide-card-drop">
+<h4 style="margin: 0 0 4px 0; font-size: 1.1rem; font-weight: 800; color: #881337;">타협 가능한 조건</h4>
+<p style="font-size: 0.82rem; color: #9F1239; margin: 0 0 10px 0;">후순위 성향 · <b>{worst_stat_name}</b></p>
+{drop_html}
+</div>
+""", unsafe_allow_html=True)
+
     st.write("")
     st.write("")
     if st.button("🔄 다시 진단하기", use_container_width=True):
